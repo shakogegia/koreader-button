@@ -29,7 +29,7 @@ KOReader host and port are configurable through a built-in web UI (port 80).
 
 ![Circuit diagram](images/Circuit.png)
 
-- **Push button** connects to **GND** and **GPIO2 (D0)**
+- **Push button** connects to **GND** and **GPIO2 (D2)**
 - **Slide switch** goes between the **battery** and the ESP32 power input
 - **Battery** plugs into the XIAO's built-in JST connector
 
