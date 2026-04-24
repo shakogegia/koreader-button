@@ -23,6 +23,7 @@ KOReader host and port are configurable through a built-in web UI (port 80).
 | ![Push button](images/parts/push%20button.jpg) | **Momentary pushbutton switch** (12x12x7.3mm) |
 | ![Battery](images/parts/battery.jpg) | **680mAh LiPo battery** (802530) |
 | ![On/off switch](images/parts/on-off%20switch.jpg) | **Slide switch** SS12D00G4 (on/off) |
+| ![Screw](images/parts/screw.png) | **M1.7x8 screw** (to close the case) |
 
 ## Circuit
 
