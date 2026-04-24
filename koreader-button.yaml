@@ -1,0 +1,99 @@
+esphome:
+  name: koreader-button
+  friendly_name: KOReader Button
+
+esp32:
+  board: esp32-c6-devkitc-1
+  framework:
+    type: esp-idf
+
+# Enable logging
+logger:
+
+ota:
+  - platform: esphome
+    password: !secret ota_password
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "KOReader-Button Fallback"
+    password: !secret ap_password
+
+captive_portal:
+
+# Web UI
+web_server:
+  port: 80
+
+# ========================
+# Editable settings (WEB UI)
+# ========================
+text:
+  - platform: template
+    name: "KOReader Host"
+    id: koreader_host
+    optimistic: true
+    mode: text
+    restore_value: true
+    initial_value: "192.168.1.100"
+
+number:
+  - platform: template
+    name: "KOReader Port"
+    id: koreader_port
+    min_value: 1
+    max_value: 65535
+    step: 1
+    optimistic: true
+    restore_value: true
+    initial_value: 8080
+
+# ========================
+# HTTP client
+# ========================
+
+http_request:
+  useragent: esphome/koreader
+  timeout: 5s
+
+# ========================
+# BUTTON (GPIO2 = D2)
+# ========================
+
+binary_sensor:
+  - platform: gpio
+    id: button
+    pin:
+      number: GPIO2
+      mode: INPUT_PULLUP
+      inverted: true
+
+    filters:
+      - delayed_on: 10ms
+      - delayed_off: 10ms
+
+    on_multi_click:
+
+      # SHORT PRESS → NEXT PAGE
+      - timing:
+          - ON for 50ms to 500ms
+        then:
+          - http_request.get:
+              url: !lambda |-
+                return "http://" + id(koreader_host).state + ":" +
+                       to_string((int)id(koreader_port).state) +
+                       "/koreader/event/GotoViewRel/1";
+
+      # LONG PRESS → PREVIOUS PAGE
+      - timing:
+          - ON for at least 800ms
+        then:
+          - http_request.get:
+              url: !lambda |-
+                return "http://" + id(koreader_host).state + ":" +
+                       to_string((int)id(koreader_port).state) +
+                       "/koreader/event/GotoViewRel/-1";
