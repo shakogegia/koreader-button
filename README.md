@@ -74,7 +74,9 @@ After flashing, open the device's web UI at its IP address (port 80) and set the
 
 ## 3D Model
 
-The printable case is available on MakerWorld (link coming soon).
+Printable case files are in the [`3d-model/`](3d-model/) folder (STL and 3MF). No supports needed, printed in PLA.
+
+Also available on MakerWorld (link coming soon).
 
 ## License
 
